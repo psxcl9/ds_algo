@@ -91,4 +91,119 @@ public class Sort {
         }
     }
 
+
+    /**
+     * 归并排序, 时间复杂度O(nlogn), 但归并排序并不是原地排序 故其空间复杂度O(n)
+     * @param data
+     */
+    public static void mergeSort(int[] data) {
+        //计算待排序数组的长度
+        int length = data.length;
+        if (length <= 1) {
+            return;
+        }
+        //进行归并排序
+        merge_sort(data, 0, length - 1);
+    }
+
+    private static void merge_sort(int[] a, int p, int r) {
+        //归并排序终止条件
+        if (p >= r) {
+            return;
+        }
+        //求得p、r的中间位置q
+        int q = (p + r) / 2;
+        //分治递归
+        merge_sort(a, p, q);
+        merge_sort(a, q + 1, r);
+        //最终合并已排好序的p~q和q+1~r
+        merge(a, p, r, q);
+    }
+
+    private static void merge(int[] a, int p, int r, int q) {
+        //i指向前半部分数组的第一个下标
+        int i = p;
+        //j指向后半部分数组的第一个下标
+        int j = q + 1;
+        //临时数组的长度, 需+1
+        int n = r - p + 1;
+        //申请一个临时数组
+        int[] tmp = new int[n];
+        //用于控制tmp的下标
+        int k = 0;
+        while (i <= q && j <= r) {
+            if (a[i] < a[j]) {
+                tmp[k++] = a[i++];
+            } else {
+                tmp[k++] = a[j++];
+            }
+        }
+        //循环结束有一边的数组已经全部放入临时数组tmp, 只需将另一边数组依次放入tmp
+        if (i > q) {
+            //将剩余的j～r部分放入临时数组中
+            while (j <= r) {
+                tmp[k++] = a[j++];
+            }
+        } else {
+            //将剩余的i~q部分放入临时数组中
+            while (i <= q) {
+                tmp[k++] = a[i++];
+            }
+        }
+        k = 0;
+        // 将tmp中的数组拷贝回a[p...r]
+        for (; k < n; k++) {
+            a[p++] = tmp[k];
+        }
+    }
+
+
+    /**
+     * 快速排序
+     * @param data
+     */
+    public static void quickSort(int[] data) {
+        //计算待排序数组的长度
+        int length = data.length;
+        if (length <= 1) {
+            return;
+        }
+        //进行快速排序
+        quick_sort(data, 0, length - 1);
+    }
+
+    private static void quick_sort(int[] a, int p, int r) {
+        //快速排序的终止条件
+        if (p >= r) {
+            return;
+        }
+        //获取分区点
+        int q = partition(a, p, r);
+        //分治、递归直到区间缩小为1
+        quick_sort(a, p, q-1);
+        quick_sort(a, q+1, r);
+    }
+
+    private static int partition(int[] a, int p, int r) {
+        //取数组中最后一个元素为分区点
+        int pivot = a[r];
+        //设置已处理间的游标
+        int i = p;
+        //设置整个待处理区间的游标
+        int j = p;
+        for (; j <= r - 1; j++) {
+            if (a[j] < pivot) {
+                //将小于pivot的数放在pivot的左边, 下标从i开始
+                int tmp = a[i];
+                a[i++] = a[j];
+                a[j] = tmp;
+            }
+        }
+        //将分区点放到下标为i的地方, 此时分区点的左边全是小于pivot的值, 右边全是大于pivot的值
+        int tmp = a[i];
+        a[i] = pivot;
+        a[r] = tmp;
+        //返回分区点位置下标
+        return i;
+    }
 }
