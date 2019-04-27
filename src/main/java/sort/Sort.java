@@ -51,14 +51,15 @@ public class Sort {
             int j = i - 1;
 
             for (; j >= 0; --j) {
-                if (data[j] > value) {
-                    //数据移动
+                if (value < data[j]) {
+                    //数据向后移动
                     data[j+1] = data[j];
                 } else {
                     break;
                 }
+
             }
-            //给这一轮要插入的数据找到了合适的位置
+            //给这一轮要插入的数据在已排序区间里找到了合适的位置
             data[j+1] = value;
         }
 
@@ -77,17 +78,18 @@ public class Sort {
         for (int i = 0; i < length - 1; i++) {
             int k = i;
             for (int j = i + 1; j < length; j++) {
-                if (data[k] > data[j]) {
+                if (data[j] < data[k]) {
                     //k记下目前找到的最小值所在的位置
                     k = j;
                 }
             }
-            //内层循环结束，也就是找到本轮循环的最小的数以后，再进行交换
+            //内层循环结束，也就是找到本轮的最小的数以后，再进行交换
             if (i != k) {
                 int tmp = data[i];
                 data[i] = data[k];
                 data[k] = tmp;
             }
+
         }
     }
 
@@ -137,6 +139,7 @@ public class Sort {
             } else {
                 tmp[k++] = a[j++];
             }
+
         }
         //循环结束有一边的数组已经全部放入临时数组tmp, 只需将另一边数组依次放入tmp
         if (i > q) {
@@ -179,7 +182,7 @@ public class Sort {
         }
         //获取分区点
         int q = partition(a, p, r);
-        //分治、递归直到区间缩小为1
+        //分治、递归直到区间缩小为1, 分区点的值已经置于整个数组应在的位置, 无需继续排序
         quick_sort(a, p, q-1);
         quick_sort(a, q+1, r);
     }
@@ -193,17 +196,18 @@ public class Sort {
         int j = p;
         for (; j <= r - 1; j++) {
             if (a[j] < pivot) {
-                //将小于pivot的数放在pivot的左边, 下标从i开始
+                //将小于pivot的数放在pivot的左边, 通过与下标为i的数进行交换
                 int tmp = a[i];
                 a[i++] = a[j];
                 a[j] = tmp;
             }
         }
-        //将分区点放到下标为i的地方, 此时分区点的左边全是小于pivot的值, 右边全是大于pivot的值
+        //将分区点与下标为i的值进行交换, 此时分区点的左边全是小于pivot的值, 右边全是大于pivot的值
         int tmp = a[i];
         a[i] = pivot;
         a[r] = tmp;
         //返回分区点位置下标
         return i;
     }
+    
 }
