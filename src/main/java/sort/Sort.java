@@ -66,6 +66,42 @@ public class Sort {
     }
 
     /**
+     * 希尔排序, 插入排序的变种
+     * @param data
+     */
+    public static void shellSort(int[] data) {
+        int length = data.length;
+        if (length <= 1) {
+            return;
+        }
+
+        int h = 1;
+        //h = 1、4、13、40、121
+        while (h < length / 3) {
+            h = 3 * h + 1;
+        }
+        //h == 1时就是插入排序, 只是现在的数组已经大部分有序了
+        while (h >= 1) {
+            //对i、i+h、i+2h、i+3h组成的一组数组进行排序
+            for (int i = h; i < length; i++) {
+                for (int j = i; j >= h; j -= h) {
+                    if (data[j] < data[j-h]) {
+                        //交换
+                        int tmp = data[j];
+                        data[j] = data[j-h];
+                        data[j-h] = tmp;
+                    }
+
+                }
+
+            }
+            h = h / 3;
+
+        }
+
+    }
+
+    /**
      * 选择排序
      * 非稳定排序
      * @param data
@@ -76,18 +112,18 @@ public class Sort {
             return;
         }
         for (int i = 0; i < length - 1; i++) {
-            int k = i;
+            int min = i; //最小元素索引
             for (int j = i + 1; j < length; j++) {
-                if (data[j] < data[k]) {
+                if (data[j] < data[min]) {
                     //k记下目前找到的最小值所在的位置
-                    k = j;
+                    min = j;
                 }
             }
             //内层循环结束，也就是找到本轮的最小的数以后，再进行交换
-            if (i != k) {
+            if (i != min) {
                 int tmp = data[i];
-                data[i] = data[k];
-                data[k] = tmp;
+                data[i] = data[min];
+                data[min] = tmp;
             }
 
         }
@@ -209,5 +245,5 @@ public class Sort {
         //返回分区点位置下标
         return i;
     }
-    
+
 }
