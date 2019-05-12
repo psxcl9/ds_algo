@@ -26,8 +26,8 @@ public class BinaryTree {
             return null;
         }
         root = new TreeNode(vals[index]);
-        root.setLeft(buildTree(root.getLeft(), vals, 2*index));
-        root.setRight(buildTree(root.getRight(), vals, 2*index + 1));
+        root.setLeft(buildTree(root.getLeft(), vals, 2 * index));
+        root.setRight(buildTree(root.getRight(), vals, 2 * index + 1));
         return root;
     }
 
@@ -89,7 +89,7 @@ public class BinaryTree {
         }
         Queue<TreeNode> queue = new LinkedList();
         //定义一个指针用于遍历整颗二叉树
-        TreeNode cur = null;
+        TreeNode cur;
         //将根结点放入队列中
         queue.offer(root);
         while (!queue.isEmpty()) {

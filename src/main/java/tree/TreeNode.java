@@ -17,6 +17,10 @@ public class TreeNode {
         return value;
     }
 
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
     public TreeNode getLeft() {
         return left;
     }
@@ -32,4 +36,5 @@ public class TreeNode {
     public void setRight(TreeNode right) {
         this.right = right;
     }
+
 }
