@@ -246,4 +246,47 @@ public class Sort {
         return i;
     }
 
+    /**
+     * 计数排序
+     * 计数排序只能用在数据范围不大的场景中, 如果数据范围k比要排序的数据个数n大很多, 就不适合计数排序了
+     * 计数排序只能给非负整数排序, 其他情况需要转化为非负整数
+     * @param a 待排序的数组 非负整数
+     */
+    public static void countingSort(int[] a) {
+        int n = a.length;
+        if (n <= 1) {
+            return;
+        }
+        //找出数组a的数据范围
+        int max = a[0];
+        for (int i = 1; i < n; i++) {
+            if (a[i] > max) {
+                max = a[i];
+            }
+        }
+        //新建一个计数数组c 下标[0~max] 大小为max+1
+        int[] c = new int[max+1];
+        //数组c的下标对应待排序a的数据范围, 遍历数组a 累加计算a中每个数据重复的总数
+        for (int j = 0; j < n; j++) {
+            c[a[j]]++;
+        }
+        //从0开始相邻累加, 最后的结果就是c[k]中存储的是a数组中小于等于k的总个数
+        for (int k = 1; k <= max; k++) {
+            c[k] = c[k-1] + c[k];
+        }
+        //申请临时数组r 存放排序的数
+        int[] r = new int[n];
+        for (int p = n-1; p >= 0; p--) {
+            //重复的数据从右向左排
+            int index = c[a[p]] - 1;
+            r[index] = a[p];
+            --c[a[p]];
+        }
+        //将临时数组拷贝到a中
+        for (int q = 0; q < n; q++) {
+            a[q] = r[q];
+        }
+
+    }
+
 }
