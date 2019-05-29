@@ -29,7 +29,7 @@ public class LinkedListQueue {
 
     public int dequeue() {
         if (head == null) {
-            //队列已经没有结点, 将队尾也置为null, 为一下次入队作准备
+            //队列已经没有结点, 将队尾也置为null, 为下一次入队作准备
             tail = null;
             return -1;
         }

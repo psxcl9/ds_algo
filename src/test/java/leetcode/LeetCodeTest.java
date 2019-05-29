@@ -19,4 +19,10 @@ public class LeetCodeTest {
         Assert.assertFalse(Solution.isValid("12341"));
         Assert.assertFalse(Solution.isValid("-121"));
     }
+
+    @Test
+    public void rotate() {
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+        Solution.rotate_1(nums, 3);
+    }
 }
