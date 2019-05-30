@@ -3,6 +3,7 @@ package leetcode;
 import org.junit.Assert;
 import org.junit.Test;
 
+
 public class LeetCodeTest {
     @Test
     public void isValid() {
@@ -24,5 +25,17 @@ public class LeetCodeTest {
     public void rotate() {
         int[] nums = {1, 2, 3, 4, 5, 6, 7};
         Solution.rotate_1(nums, 3);
+    }
+
+    @Test
+    public void reverse() {
+        Assert.assertEquals(0, Solution.reverse(1534236469));
+        Assert.assertEquals(-2143847412, Solution.reverse(-2147483412));
+    }
+
+    @Test
+    public void strStr() {
+        Solution.strStr("a", "a");
+        Assert.assertEquals(0, Solution.strStr("a", "a"));
     }
 }

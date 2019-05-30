@@ -1,5 +1,8 @@
 package leetcode;
 
+import listnode.ListNode;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -211,4 +214,138 @@ public class Solution {
         return size;
     }
 
+
+    /**
+     * no.240 搜索二维矩阵
+     * 该矩阵具有以下特性：
+     *    每行的元素从左到右升序排列。
+     *    每列的元素从上到下升序排列。
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        //行数
+        int row = matrix.length;
+        //二维数组为空时直接返回false
+        if (row == 0) {
+            return false;
+        }
+        int row1 = 0;
+        //列数
+        int column = matrix[0].length;
+        column--;
+        while (row1 < row && column >= 0) {
+            // 每次循环之前 取二维数组右上角的数作为基数
+            int goal = matrix[row1][column];
+            if (target < goal) {
+                //删除这一列
+                column--;
+            } else if (target > goal) {
+                //删除这一行
+                row1++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * no.7 整数翻转
+     * @param x
+     * @return
+     */
+    public static int reverse(int x) {
+        int sign = (x > 0) ? 1 : -1;
+        //作为正数处理
+        x = (x > 0 ? x : -x);
+        int newX = 0;
+        while (x != 0) {
+            //检测 反转后整数溢出那么就返回 0
+            if (newX != (newX * 10) / 10) {
+                return 0;
+            }
+            newX = x % 10 + newX * 10;
+            x = x / 10;
+        }
+        return newX * sign;
+    }
+
+
+    /**
+     * no.28 实现 strStr() 函数
+     * 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个
+     * 位置 (从0开始)。如果不存在，则返回 -1。当 needle 是空字符串时应当返回 0
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public static int strStr(String haystack, String needle) {
+        //haystack 字符串的长度
+        int n1 = haystack.length();
+        //needle 字符串的长度
+        int n2 = needle.length();
+        if (n2 > n1) {
+            return -1;
+        }
+        if (n2 == 0) {
+            return 0;
+        }
+        char[] haystackChar = haystack.toCharArray();
+        char[] needleChar = needle.toCharArray();
+        //定义两个指针分别指向上面两个char数组
+        int i = 0;
+        int j = 0;
+        while (i < n1 && j < n2) {
+            if (haystackChar[i] == needleChar[j]) {
+                ++i;
+                ++j;
+            } else {
+                //j归零, i始终向前移动
+                i = i - j + 1;
+                j = 0;
+            }
+        }
+        if (j == n2) {
+            return i - j;
+        }
+        return -1;
+
+    }
+
+    /**
+     * 剑指offer no.5 从尾到头打印链表
+     * @param listNode
+     * @return
+     */
+    //使用栈的特性
+    public static ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        if (listNode == null) {
+            return null;
+        }
+        ListNode p = listNode;
+        Stack stack = new Stack();
+        while (p != null) {
+            stack.push(p.val);
+            p = p.next;
+        }
+        ArrayList list = new ArrayList();
+        while (!stack.empty()) {
+            list.add(stack.pop());
+        }
+        return list;
+    }
+    //使用递归
+    public static ArrayList<Integer> printListFromTailToHeadRecursive(ListNode listNode) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (listNode != null) {
+            if (listNode.next != null) {
+                list = printListFromTailToHeadRecursive(listNode.next);
+
+            }
+            list.add(listNode.val);
+        }
+        return list;
+    }
 }
