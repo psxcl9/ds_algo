@@ -348,4 +348,282 @@ public class Solution {
         }
         return list;
     }
+
+    /**
+     * no.142 链表中环的入口结点
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        //考虑链表中边界条件: null 一个结点等
+        if (head == null || head.next == null) {
+            return null;
+        }
+        //先判断是否有环，快慢指针
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                //有环
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            //无环
+            return null;
+        }
+        //存在环，继续找到环中结点个数
+        int count = 1;
+        fast = fast.next;
+        while (slow != fast) {
+            count++;
+            fast = fast.next;
+        }
+        //开始寻找环的入口，快指针先走count
+        fast = head;
+        slow = head;
+        for (int i = 0; i < count; i++) {
+            fast = fast.next;
+        }
+        //现在两个指针以相同速度移动，再次相遇的那个结点就是环的入口
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
+    /**
+     * no.83 删除排序链表中的重复元素
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast != null) {
+            if (slow.val != fast.val) {
+                slow = slow.next;
+                fast = fast.next;
+            } else {
+                //删除fast结点
+                slow.next = fast.next;
+                fast = fast.next;
+            }
+        }
+        return head;
+    }
+
+    /**
+     * no.82 删除排序链表中的所有重复数字，只保留原始链表中没有重复出现的数字
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicatesAll(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode pNode = head;
+        //使用哨兵结点可以防止头结点就是重复结点时，导致链表丢失
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = pNode;
+        ListNode pPre = sentinel;
+        while (pNode != null && pNode.next != null) {
+            if (pNode.val != pNode.next.val) {
+                pPre = pNode;
+                pNode = pNode.next;
+            } else {
+                int value = pNode.val;
+                //pNode != null这个条件一定要放在第一个
+                while (pNode != null && pNode.val == value) {
+                    pNode = pNode.next;
+                }
+                pPre.next = pNode;
+            }
+        }
+
+
+        return sentinel.next;
+    }
+
+    /**
+     * no.237 删除链表中的节点
+     * 链表至少包含两个节点。
+     * 链表中所有节点的值都是唯一的。
+     * 给定的节点为非末尾节点并且一定是链表中的一个有效节点。
+     * @param node
+     */
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+
+    /**
+     * no.21 合并两个有序链表
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode sentinel = new ListNode(-1);
+        ListNode cur = sentinel;
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        ListNode p = l1;
+        ListNode q = l2;
+        while (p != null && q != null) {
+            if (p.val < q.val) {
+                cur.next = p;
+                cur = cur.next;
+                p = p.next;
+            } else {
+                cur.next = q;
+                cur = cur.next;
+                q= q.next;
+            }
+        }
+        if (p != null) {
+            cur.next = p;
+        } else {
+            cur.next = q;
+        }
+        return sentinel.next;
+    }
+
+
+    /**
+     * no.19 删除链表的倒数第N个节点
+     * 使用一趟扫描实现
+     * @param head
+     * @param n
+     * @return
+     */
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        //todo 各种临界条件 N>TOTAL; n == 0;
+        if (n <= 0 || head == null) {
+            return head;
+        }
+        int k = n - 1;
+        ListNode fast = head;
+        //fast == null时 N大于链表的结点总数
+        while (fast != null && k > 0) {
+            fast = fast.next;
+            k--;
+        }
+        if (fast == null) {
+            return head;
+        }
+        if (fast.next == null) {
+            //删除第一个结点
+            head = head.next;
+            return head;
+        }
+        ListNode slow = head;
+        //要删除倒数第n个元素，要得到倒数第n+1个元素的指针
+        //最终slow指向倒数第n+1个元素
+        while (fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
+
+    /**
+     * 两个链表的第一个公共结点
+     * @param pHead1
+     * @param pHead2
+     * @return
+     */
+    public static ListNode findFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        ListNode p1 = pHead1;
+        ListNode p2 = pHead2;
+        //首先分别遍历两个链表求得其各自的长度
+        int pSize1 = 0;
+        int pSize2 = 0;
+        while (p1 != null) {
+            p1 = p1.next;
+            pSize1++;
+        }
+        while (p2 != null) {
+            p2 = p2.next;
+            pSize2++;
+        }
+        p1 = pHead1;
+        p2 = pHead2;
+        if (pSize1 > pSize2) {
+            //p1比p2长
+            int n = pSize1 - pSize2;
+            while (n > 0) {
+                p1 = p1.next;
+                n--;
+            }
+        } else if (pSize2 > pSize1) {
+            int n = pSize2 - pSize1;
+            while (n > 0) {
+                p2 = p2.next;
+                n--;
+            }
+        }
+        while (p1.val != p2.val && p1.next != null) {
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        if (p1.next == null) {
+            //两条链表没有公共元素
+            return null;
+        }
+        return p1;
+
+    }
+
+    /**
+     * no.24 两两交换链表中的节点
+     * @param head
+     * @return
+     */
+    //递归解法
+    public ListNode swapPairsRecursive(ListNode head) {
+        if (head == null || head.next == null) {
+            //递归终止条件
+            return head;
+        }
+        ListNode nextNode = head.next;
+        head.next = swapPairsRecursive(nextNode.next);
+        nextNode.next = head;
+        return nextNode;
+    }
+    //普通解法
+    public ListNode swapPairs(ListNode head) {
+        //使用一个哨兵结点方便处理
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = head;
+        ListNode cur = sentinel;
+        while (cur.next != null && cur.next.next != null) {
+            //进行交换的两个结点中的第一个
+            ListNode pNode = cur.next;
+            //进行交换的两个结点中的第二个
+            ListNode pNext = cur.next.next;
+            //两两交换的下一个结点先保存，避免链表断开
+            ListNode next = pNext.next;
+            //开始交换
+            cur.next = pNext;
+            pNext.next = pNode;
+            pNode.next = next;
+
+            cur = pNode;
+        }
+        return sentinel.next;
+    }
+
 }

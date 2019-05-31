@@ -1,5 +1,6 @@
 package leetcode;
 
+import listnode.ListNode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,5 +38,41 @@ public class LeetCodeTest {
     public void strStr() {
         Solution.strStr("a", "a");
         Assert.assertEquals(0, Solution.strStr("a", "a"));
+    }
+
+    @Test
+    public void removeNthFromEnd() {
+        ListNode head = new ListNode(1);
+        ListNode second = new ListNode(2);
+        ListNode third = new ListNode(3);
+        ListNode four = new ListNode(4);
+        ListNode five = new ListNode(5);
+        head.next = second;
+        second.next = third;
+        third.next = four;
+        four.next = five;
+
+        Solution.removeNthFromEnd(head, 2);
+    }
+
+    @Test
+    public void findFirstCommonNode() {
+        ListNode head = new ListNode(1);
+        ListNode second = new ListNode(2);
+        ListNode third = new ListNode(3);
+        ListNode four = new ListNode(4);
+        ListNode five = new ListNode(5);
+        head.next = second;
+        second.next = third;
+        third.next = four;
+        four.next = five;
+
+        ListNode head2 = new ListNode(6);
+        ListNode second2 = new ListNode(7);
+        ListNode third2 = new ListNode(8);
+        head2.next = second2;
+        second2.next = third2;
+
+        Solution.findFirstCommonNode(head, head2);
     }
 }
