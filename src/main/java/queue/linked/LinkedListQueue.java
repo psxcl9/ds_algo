@@ -1,48 +1,44 @@
 package queue.linked;
 
+import node.ListNode;
+
 public class LinkedListQueue {
 
-    private Node head = null;
-    private Node tail = null;
+    private ListNode head;
+    private ListNode tail;
 
-    private static class Node {
-        private int data;
-        private Node next;
-
-        public Node(int value, Node next) {
-            this.data = value;
-            this.next = next;
-        }
+    public LinkedListQueue() {
+        head = null;
+        tail = null;
     }
 
     public boolean enqueue(int value) {
-        Node newNode = new Node(value, null);
+        ListNode node = new ListNode(value);
+        //空队列特殊处理
         if (tail == null) {
-            head = newNode;
-            tail = newNode;
+            head = node;
+            tail = node;
             return true;
         }
-        tail.next = newNode;
-        tail = tail.next;
+        tail.next = node;
+        tail = node;
         return true;
     }
 
     public int dequeue() {
         if (head == null) {
-            //队列已经没有结点, 将队尾也置为null, 为下一次入队作准备
             tail = null;
             return -1;
         }
-        int tmp = head.data;
+        int item = head.val;
         head = head.next;
-        return tmp;
+        return item;
     }
 
-    private void printAll() {
-        Node p = head;
-        System.out.println("遍历队列：");
+    public void printAll() {
+        ListNode p = head;
         while (p != null) {
-            System.out.println(p.data + "");
+            System.out.print(p.val + "-->");
             p = p.next;
         }
     }

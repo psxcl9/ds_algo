@@ -1,6 +1,6 @@
 package leetcode;
 
-import listnode.ListNode;
+import node.ListNode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,5 +74,12 @@ public class LeetCodeTest {
         second2.next = third2;
 
         Solution.findFirstCommonNode(head, head2);
+    }
+
+    @Test
+    public void validateStackSequences() {
+        int[] pushed = {1,2,3,4,5};
+        int[] poped = {4,5,3,2,1};
+        Solution.validateStackSequences(pushed, poped);
     }
 }

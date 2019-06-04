@@ -1,34 +1,41 @@
 package queue.array;
 
 public class ArrayQueue {
-    private int[] queues;
-    private int n;//队列的长度
-    //head队头，tail队尾
-    private int head = 0;
-    private int tail = 0;
 
-    public ArrayQueue(int capacity) {
-        queues = new int[capacity];
-        n = capacity;
+    private int[] queue;
+    //队列长度
+    private int length;
+    private int head;
+    private int tail;
+
+    public ArrayQueue(int n) {
+        this.length = n;
+        queue = new int[n];
+        head = 0;
+        tail = 0;
+    }
+
+    public ArrayQueue() {
+        this(10);
     }
 
     //入队
     public boolean enqueue(int value) {
-        //tail == n时tail的值是队尾下标+1
-        if (tail == n) {
+        if (tail == length) {
+            //队尾指针已经走到尽头
             if (head == 0) {
-                //队列已满
+                //队列已经满了, 不能入队
                 return false;
             }
-            //队头部分还有空余位置 可以迁移数据再从队尾插入
+            //之前有出队的元素, 数组中有空余空间
             for (int i = head; i < tail; i++) {
-                queues[i - head] = queues[i];
+                queue[i - head] = queue[i];
             }
             //运算之后tail指向队尾元素的下一个内存空间
-            tail -= head;
+            tail = tail - head;
             head = 0;
         }
-        queues[tail++] = value;
+        queue[tail++] = value;
         return true;
     }
 
@@ -38,7 +45,8 @@ public class ArrayQueue {
         if (head == tail) {
             return -1;
         }
-        int tmp = queues[head++];
+        int tmp = queue[head];
+        queue[head++] = 0;
         return tmp;
     }
 

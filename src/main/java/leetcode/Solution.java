@@ -1,6 +1,6 @@
 package leetcode;
 
-import listnode.ListNode;
+import node.ListNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -626,4 +626,52 @@ public class Solution {
         return sentinel.next;
     }
 
+    /**
+     * no.946 验证栈序列
+     * @param pushed
+     * @param popped
+     * @return
+     */
+    public static boolean validateStackSequences(int[] pushed, int[] popped) {
+        if (pushed == null || popped == null) {
+            return false;
+        }
+        Stack<Integer> stack = new Stack();
+        int popIndex = 0;
+        int pushIndex = 0;
+        while (pushIndex < pushed.length) {
+            stack.push(pushed[pushIndex++]);
+            while (!stack.empty() && stack.peek() == popped[popIndex]) {
+                popIndex++;
+                stack.pop();
+            }
+        }
+        return stack.empty();
+    }
+
+    /**
+     * no.88 合并两个有序数组
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int k = m + n - 1;
+        m -= 1;
+        n -= 1;
+        while (m >=0 && n >= 0) {
+            if (nums1[m] > nums2[n]) {
+                nums1[k--] = nums1[m--];
+            } else {
+                nums1[k--] = nums2[n--];
+            }
+        }
+        if (m < 0) {
+            while (n >= 0) {
+                nums1[k--] = nums2[n--];
+            }
+        }
+        // n < 0 代表剩下的全是num1之前的
+    }
 }
