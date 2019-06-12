@@ -4,7 +4,7 @@ import node.ListNode;
 
 public class StackBasedoOnLinkedList {
 
-    private ListNode top = null;
+    public ListNode top = null;
 
     /**
      * 入栈操作
@@ -44,6 +44,10 @@ public class StackBasedoOnLinkedList {
         int item = peek();
         top = top.next;
         return item;
+    }
+
+    public void clear() {
+        top = null;
     }
 
     /**

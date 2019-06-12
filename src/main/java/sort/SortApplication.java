@@ -1,5 +1,7 @@
 package sort;
 
+import static sort.Sort.swap;
+
 /**
  * 排序方法的具体应用
  */
@@ -28,7 +30,7 @@ public class SortApplication {
         int p = partition(data, f, l);
         //经过partition方法后, p前面会有n个值大于p(n>=0), p位置上的值即是当前数组第n+1大的数, 数值上 p == n(数组下标从0开始)
         while (p + 1 != k) {
-            if (p + 1 > k) {
+            if (k < p + 1) {
                 //在p的左边继续调用partition方法
                 p = partition(data, 0, p - 1);
             } else {
@@ -56,15 +58,16 @@ public class SortApplication {
         for (; j < l; j++) {
             if (data[j] > pivot) {
                 //将大于pivot的数放在pivot的左边 每次总与下标i的值交换
-                int tmp = data[i];
-                data[i++] = data[j];
-                data[j] = tmp;
+                if (i != j) {
+                    swap(data, i, j);
+                }
+                i++;
             }
         }
         //最后将pivot与位置i的值进行交换
-        int tmp = data[i];
-        data[i] = pivot;
-        data[l] = tmp;
+        swap(data, i, l);
         return i;
     }
+
+
 }

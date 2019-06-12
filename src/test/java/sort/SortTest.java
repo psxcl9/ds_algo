@@ -42,7 +42,7 @@ public class SortTest {
         int[] data = {2, 5, 1, 8, 5, 9, 11, 4, 20, 17, 7, 0};
         Sort.mergeSort(data);
         Assert.assertEquals(0, data[0]);
-        Assert.assertEquals(20, data[data.length-1]);
+        Assert.assertEquals(4, data[3]);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SortTest {
     @Test
     public void findKthLargest() {
         int[] data = {2, 5, 1, 8, 5, 9, 11, 4, 20, 17, 7, 0};
-        int k = SortApplication.findKthLargest(data, 2);
-        Assert.assertEquals(17, k);
+        int k = SortApplication.findKthLargest(data, 3);
+        Assert.assertEquals(11, k);
     }
 }

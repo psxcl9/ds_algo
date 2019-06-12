@@ -18,9 +18,7 @@ public class Sort {
             for (int j = 0; j < length - i - 1; j++) {
                 if (data[j] > data[j+1]) {
                     //交换
-                    int tmp = data[j];
-                    data[j] = data[j+1];
-                    data[j+1] = tmp;
+                    swap(data, j, j+1);
                     //出现数据交换
                     flag = true;
                 }
@@ -91,9 +89,7 @@ public class Sort {
                         data[j] = data[j-h];
                         data[j-h] = tmp;
                     }
-
                 }
-
             }
             h = h / 3;
 
@@ -121,9 +117,7 @@ public class Sort {
             }
             //内层循环结束，也就是找到本轮的最小的数以后，再进行交换
             if (i != min) {
-                int tmp = data[i];
-                data[i] = data[min];
-                data[min] = tmp;
+                swap(data, i, min);
             }
 
         }
@@ -150,15 +144,15 @@ public class Sort {
             return;
         }
         //求得p、r的中间位置q
-        int q = (p + r) / 2;
+        int q = p + (r - p) / 2;
         //分治递归
         merge_sort(a, p, q);
         merge_sort(a, q + 1, r);
         //最终合并已排好序的p~q和q+1~r
-        merge(a, p, r, q);
+        merge(a, p, q, r);
     }
 
-    private static void merge(int[] a, int p, int r, int q) {
+    private static void merge(int[] a, int p, int q, int r) {
         //i指向前半部分数组的第一个下标
         int i = p;
         //j指向后半部分数组的第一个下标
@@ -178,16 +172,14 @@ public class Sort {
 
         }
         //循环结束有一边的数组已经全部放入临时数组tmp, 只需将另一边数组依次放入tmp
-        if (i > q) {
-            //将剩余的j～r部分放入临时数组中
-            while (j <= r) {
-                tmp[k++] = a[j++];
-            }
-        } else {
-            //将剩余的i~q部分放入临时数组中
-            while (i <= q) {
-                tmp[k++] = a[i++];
-            }
+        int start = i;
+        int end = q;
+        if (j <= r) {
+            start = j;
+            end = r;
+        }
+        while (start <= end) {
+            tmp[k++] = a[start++];
         }
         k = 0;
         // 将tmp中的数组拷贝回a[p...r]
@@ -233,15 +225,14 @@ public class Sort {
         for (; j <= r - 1; j++) {
             if (a[j] < pivot) {
                 //将小于pivot的数放在pivot的左边, 通过与下标为i的数进行交换
-                int tmp = a[i];
-                a[i++] = a[j];
-                a[j] = tmp;
+                if (i != j) {
+                    swap(a, i, j);
+                }
+                i++;
             }
         }
         //将分区点与下标为i的值进行交换, 此时分区点的左边全是小于pivot的值, 右边全是大于pivot的值
-        int tmp = a[i];
-        a[i] = pivot;
-        a[r] = tmp;
+        swap(a, i, r);
         //返回分区点位置下标
         return i;
     }
@@ -287,6 +278,12 @@ public class Sort {
             a[q] = r[q];
         }
 
+    }
+
+    public static void swap(int[] a, int i, int j) {
+        int tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
     }
 
 }

@@ -32,6 +32,6 @@ public class LinkedListTest {
         for (int i = 1; i < 5; i++) {
             dcll.insertHead(i);
         }
-        dcll.delete(new DoubleNode(5));
+        dcll.delete(new DoubleNode(1));
     }
 }
