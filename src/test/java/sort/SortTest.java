@@ -1,5 +1,6 @@
 package sort;
 
+import leetcode.Solution;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -66,5 +67,12 @@ public class SortTest {
         int[] data = {2, 5, 1, 8, 5, 9, 11, 4, 20, 17, 7, 0};
         int k = SortApplication.findKthLargest(data, 3);
         Assert.assertEquals(11, k);
+    }
+
+    @Test
+    public void moreThanHalfNum() {
+        int[] data = {1, 1, 0};
+        int n = SortApplication.MoreThanHalfNum_Solution(data);
+        System.out.println(n);
     }
 }

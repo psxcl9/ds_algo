@@ -2,10 +2,7 @@ package leetcode;
 
 import node.ListNode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
@@ -640,11 +637,11 @@ public class Solution {
         int popIndex = 0;
         int pushIndex = 0;
         while (pushIndex < pushed.length) {
-            stack.push(pushed[pushIndex++]);
-            while (!stack.empty() && stack.peek() == popped[popIndex]) {
-                popIndex++;
-                stack.pop();
-            }
+             stack.push(pushed[pushIndex++]);
+             while (!stack.empty() && stack.peek() == popped[popIndex]) {
+                 popIndex++;
+                 stack.pop();
+             }
         }
         return stack.empty();
     }
@@ -673,5 +670,50 @@ public class Solution {
             }
         }
         // n < 0 代表剩下的全是num1之前的
+    }
+
+
+    /**
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int search(int[] nums, int target) {
+        int n = nums.length;
+        int low = 0;
+        int high = n - 1;
+
+        while (low <= high) {
+            int mid = low + ((high - low) >> 1);
+            if (nums[low] < nums[mid]) {
+                //low - mid之间是有序数组
+                if (target >= nums[low] && target <= nums[mid]) {
+                    return binarySearch(nums, low, mid, target);
+                }
+                low = mid;
+            } else if (nums[low] > nums[mid]) {
+                //low - mid之间是旋转数组
+                if (target >= nums[mid] && target <= nums[high]) {
+                    return binarySearch(nums, mid, high, target);
+                }
+                high = mid;
+            }
+        }
+        return -1;
+    }
+
+    private static int binarySearch(int[] nums, int start, int end, int target) {
+        while (start <= end) {
+            int mid = start + ((end - start) >> 1);
+            if (target < nums[mid]) {
+                end = mid - 1;
+            } else if (target > nums[mid]) {
+                start = start + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
     }
 }

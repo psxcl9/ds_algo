@@ -48,26 +48,83 @@ public class SortApplication {
      * @param l
      * @return
      */
-    private static int partition(int[] data, int f, int l) {
-        //取数组最后一个元素作为分区点
-        int pivot = data[l];
-        //游标i控制已排序区间
-        int i = f;
-        //游标j遍历整个数组
-        int j = f;
-        for (; j < l; j++) {
-            if (data[j] > pivot) {
-                //将大于pivot的数放在pivot的左边 每次总与下标i的值交换
+//    private static int partition(int[] data, int f, int l) {
+//        //取数组最后一个元素作为分区点
+//        int pivot = data[l];
+//        //游标i控制已排序区间
+//        int i = f;
+//        //游标j遍历整个数组
+//        int j = f;
+//        for (; j < l; j++) {
+//            if (data[j] > pivot) {
+//                //将大于pivot的数放在pivot的左边 每次总与下标i的值交换
+//                if (i != j) {
+//                    swap(data, i, j);
+//                }
+//                i++;
+//            }
+//        }
+//        //最后将pivot与位置i的值进行交换
+//        swap(data, i, l);
+//        return i;
+//    }
+
+
+    public static int MoreThanHalfNum_Solution(int [] array) {
+        int n = array.length;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return array[0];
+        }
+        int num = findKth(array, n);
+
+        int size = 0;
+        for (int i = 0; i < n; i++) {
+            if (array[i] == num) {
+                size++;
+            }
+        }
+        if (size*2 <= n) {
+            return 0;
+        }
+        return num;
+    }
+
+    private static int findKth(int[] array, int n) {
+        int pivot = partition(array, 0, n-1);
+        int k = n >> 1;
+        while ((pivot + 1) != k) {
+            if ((pivot + 1) < k) {
+                pivot = partition(array, (pivot + 1), n-1);
+            } else if ((pivot + 1) > k) {
+                pivot = partition(array, 0, (pivot - 1));
+            }
+        }
+        return array[pivot];
+    }
+
+    private static int partition(int[] array, int p, int r) {
+        int i = p;
+        int j = p;
+        int value = array[r];
+        for (; j <= r-1; j++) {
+            if (array[j] > value) {
                 if (i != j) {
-                    swap(data, i, j);
+                    swap(array, i, j);
                 }
                 i++;
             }
         }
-        //最后将pivot与位置i的值进行交换
-        swap(data, i, l);
+        swap(array, i, r);
         return i;
     }
 
+    private static void swap(int[] array, int i, int j) {
+        int tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
 
 }

@@ -82,4 +82,11 @@ public class LeetCodeTest {
         int[] poped = {4,5,3,2,1};
         Solution.validateStackSequences(pushed, poped);
     }
+
+    @Test
+    public void search() {
+        int[] nums = {4,5,6,7,0,1,2};
+        int p = Solution.search(nums, 2);
+        System.out.println(p);
+    }
 }
