@@ -1,6 +1,5 @@
 package sort;
 
-import static sort.Sort.swap;
 
 /**
  * 排序方法的具体应用
@@ -48,26 +47,24 @@ public class SortApplication {
      * @param l
      * @return
      */
-//    private static int partition(int[] data, int f, int l) {
-//        //取数组最后一个元素作为分区点
-//        int pivot = data[l];
-//        //游标i控制已排序区间
-//        int i = f;
-//        //游标j遍历整个数组
-//        int j = f;
-//        for (; j < l; j++) {
-//            if (data[j] > pivot) {
-//                //将大于pivot的数放在pivot的左边 每次总与下标i的值交换
-//                if (i != j) {
-//                    swap(data, i, j);
-//                }
-//                i++;
-//            }
-//        }
-//        //最后将pivot与位置i的值进行交换
-//        swap(data, i, l);
-//        return i;
-//    }
+    private static int partition(int[] data, int f, int l) {
+        //取数组最后一个元素作为分区点
+        int pivot = data[l];
+        //游标i控制已排序区间
+        int i = f;
+        //游标j遍历整个数组
+        int j = f;
+        for (; j < l; j++) {
+            if (data[j] >= pivot) {
+                //将大于pivot的数放在pivot的左边 每次总与下标i的值交换
+                swap(data, i, j);
+                i++;
+            }
+        }
+        //最后将pivot与位置i的值进行交换
+        swap(data, i, l);
+        return i;
+    }
 
 
     public static int MoreThanHalfNum_Solution(int [] array) {
@@ -105,26 +102,12 @@ public class SortApplication {
         return array[pivot];
     }
 
-    private static int partition(int[] array, int p, int r) {
-        int i = p;
-        int j = p;
-        int value = array[r];
-        for (; j <= r-1; j++) {
-            if (array[j] > value) {
-                if (i != j) {
-                    swap(array, i, j);
-                }
-                i++;
-            }
-        }
-        swap(array, i, r);
-        return i;
-    }
-
     private static void swap(int[] array, int i, int j) {
-        int tmp = array[i];
-        array[i] = array[j];
-        array[j] = tmp;
+        if (i != j) {
+            int tmp = array[i];
+            array[i] = array[j];
+            array[j] = tmp;
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package sort;
 
-import leetcode.Solution;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,8 +70,8 @@ public class SortTest {
 
     @Test
     public void moreThanHalfNum() {
-        int[] data = {1, 1, 0};
+        int[] data = {1, 1, 2, 2, 2, 2, 2};
         int n = SortApplication.MoreThanHalfNum_Solution(data);
-        System.out.println(n);
+        Assert.assertEquals(2, n);
     }
 }

@@ -116,9 +116,7 @@ public class Sort {
                 }
             }
             //内层循环结束，也就是找到本轮的最小的数以后，再进行交换
-            if (i != min) {
-                swap(data, i, min);
-            }
+            swap(data, i, min);
 
         }
     }
@@ -225,9 +223,7 @@ public class Sort {
         for (; j <= r - 1; j++) {
             if (a[j] < pivot) {
                 //将小于pivot的数放在pivot的左边, 通过与下标为i的数进行交换
-                if (i != j) {
-                    swap(a, i, j);
-                }
+                swap(a, i, j);
                 i++;
             }
         }
@@ -281,9 +277,11 @@ public class Sort {
     }
 
     public static void swap(int[] a, int i, int j) {
-        int tmp = a[i];
-        a[i] = a[j];
-        a[j] = tmp;
+        if (i != j) {
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
     }
 
 }
